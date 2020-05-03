@@ -1,0 +1,111 @@
+
+# =================== #
+# User-specific files #
+# =================== #
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ================================================ #
+# User-specific files (MonoDevelop/Xamarin Studio) #
+# ================================================ #
+*.userprefs
+
+# ============= #
+# Build results #
+# ============= #
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+[Ss]witchIL2CPPStats/
+[Ss]witchIL2CPPCache/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# ================================= #
+# ReSharper is a .NET coding add-in #
+# ================================= #
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+*.DotSettings
+
+# ========================================== #
+# Visual Studio 2015 cache/options directory #
+# ========================================== #
+.vs/
+
+# ======================================= #
+# JetBrains Rider cache/options directory #
+# ======================================= #
+.idea/
+
+# =================== #
+# MSTest test Results #
+# =================== #
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# =============== #
+# Unity generated #
+# =============== #
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ibrary/
+*.stackdump
+ sysinfo.txt
+ 
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+[Ee]xported[Oo]bj/
+.vs/
+.idea/
+*.csproj
+*.userprefs
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+*[Jj]et[Bb]rains*
+*/Plugins/Editor.meta
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+[Tt]humbs.db
+*.apk
+*.exe
+
+# ========== #
+# Exclusions #
+# ========== #
+!*.obj
+!*.dll
+
+# ===== #
+# Other #
+# ===== #
+Assets/[Tt]est/
+player_prefs.json
+Assets/AddressableAssetsData/addressables_content_state.bin
+Assets/AddressableAssetsData/addressables_content_state.bin.meta
+Assets/StreamingAssets/build_info.txt
+Assets/StreamingAssets/build_info.txt.meta
+Assets/StreamingAssets/aa
+Assets/StreamingAssets/aa.meta
