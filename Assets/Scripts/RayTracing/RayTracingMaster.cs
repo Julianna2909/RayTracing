@@ -13,6 +13,7 @@ namespace RayTracing
         [SerializeField] private Light directionalLight;
         [SerializeField] private List<Sphere> spheres;
 
+        private RenderTexture converged;
         private ComputeBuffer sphereBuffer;
         private RenderTexture target;
         private uint currentSample;
@@ -33,7 +34,7 @@ namespace RayTracing
                 spheresInfo.Add(s.GetSphereInfo());
                 s.gameObject.SetActive(false);
             });
-            sphereBuffer = new ComputeBuffer(spheres.Count, 40);
+            sphereBuffer = new ComputeBuffer(spheres.Count, 56);
             sphereBuffer.SetData(spheresInfo);
             isSceneGenerated = true;
         }
@@ -48,6 +49,7 @@ namespace RayTracing
             rayTracingShader.SetVector("DirectionalLight",
                 new Vector4(lightForward.x, lightForward.y, lightForward.z, directionalLight.intensity));
             rayTracingShader.SetBuffer(0, "Spheres", sphereBuffer);
+            rayTracingShader.SetFloat("Seed", Random.value);
         }
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -59,20 +61,17 @@ namespace RayTracing
 
         private void Render(RenderTexture destination)
         {
-            // Make sure we have a current render target
             InitRenderTexture();
-
-            // Set the target and dispatch the compute shader
             rayTracingShader.SetTexture(0, "Result", target);
-            int threadGroupsX = Mathf.CeilToInt(Screen.width / 8.0f);
-            int threadGroupsY = Mathf.CeilToInt(Screen.height / 8.0f);
+            var threadGroupsX = Mathf.CeilToInt(Screen.width / 8.0f);
+            var threadGroupsY = Mathf.CeilToInt(Screen.height / 8.0f);
             rayTracingShader.Dispatch(0, threadGroupsX, threadGroupsY, 1);
             
-            // Blit the result texture to the screen
             if (addMaterial == null)
                 addMaterial = new Material(Shader.Find("Hidden/AddShader"));
             addMaterial.SetFloat("Sample", currentSample);
-            Graphics.Blit(target, destination, addMaterial);
+            Graphics.Blit(target, converged, addMaterial);
+            Graphics.Blit(converged, destination);
             currentSample++;
         }
 
@@ -82,12 +81,18 @@ namespace RayTracing
             {
                 // Release render texture if we already have one
                 if (target != null)
+                {
                     target.Release();
+                    converged.Release();
+                }
 
                 // Get a render target for Ray Tracing
                 target = new RenderTexture(Screen.width, Screen.height, 0,
                     RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear) {enableRandomWrite = true};
                 target.Create();
+                converged = new RenderTexture(Screen.width, Screen.height, 0,
+                    RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear) {enableRandomWrite = true};
+                converged.Create();
             }
         }
         
@@ -111,5 +116,7 @@ namespace RayTracing
         public float radius;
         public Vector3 albedo;
         public Vector3 specular;
+        public float smoothness;
+        public Vector3 emission;
     }
 }
