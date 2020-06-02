@@ -166,9 +166,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 1}
-  specular: {x: 1, y: 1, z: 1}
+  specular: {r: 1, g: 1, b: 1, a: 0}
   smoothness: 1
-  emission: {x: 0, y: 0, z: 0}
+  emission: {r: 0.5566038, g: 0, b: 0, a: 0}
 --- !u!23 &359947808
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -351,9 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 1, b: 1, a: 1}
-  specular: {x: 1, y: 0.78, z: 0.34}
+  specular: {r: 0.6981132, g: 0, b: 0, a: 0}
   smoothness: 0.3
-  emission: {x: 0.1, y: 0.2, z: 0.2}
+  emission: {r: 0, g: 0, b: 0, a: 0}
 --- !u!23 &762553204
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -445,9 +445,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 0.5235849, b: 0.8759332, a: 1}
-  specular: {x: 0.55, y: 0.3, z: 0.1}
+  specular: {r: 0.509434, g: 0.509434, b: 0.509434, a: 0}
   smoothness: 1
-  emission: {x: 0.1, y: 0, z: 0}
+  emission: {r: 0.6901961, g: 0, b: 0.4862745, a: 0}
 --- !u!23 &767220030
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -647,9 +647,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 1, g: 1, b: 1, a: 0}
-  specular: {x: 0, y: 0, z: 0}
+  specular: {r: 1, g: 1, b: 1, a: 0}
   smoothness: 0.75
-  emission: {x: 1, y: 0.65, z: 0.96}
+  emission: {r: 1, g: 1, b: 1, a: 0}
 --- !u!23 &1567650524
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -741,9 +741,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0.35602972, g: 0.8584906, b: 0.20652366, a: 0}
-  specular: {x: 0.5, y: 0.5, z: 0.5}
+  specular: {r: 0.764151, g: 0.764151, b: 0.764151, a: 0}
   smoothness: 0.1
-  emission: {x: 0, y: 0, z: 0}
+  emission: {r: 0, g: 0, b: 0, a: 0}
 --- !u!23 &1644587563
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -894,9 +894,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0, g: 0, b: 0, a: 0}
-  specular: {x: 0.3, y: 0.2, z: 0.2}
+  specular: {r: 0.41509432, g: 0.3040618, b: 0, a: 0}
   smoothness: 0
-  emission: {x: 0, y: 0, z: 0}
+  emission: {r: 0.24528301, g: 0, b: 0, a: 0}
 --- !u!1 &1996768470
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,9 +943,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color: {r: 0.8773585, g: 0.15312389, b: 0.15312389, a: 1}
-  specular: {x: 0.3, y: 0.3, z: 0.3}
+  specular: {r: 0.5283019, g: 0.5100708, b: 0, a: 0}
   smoothness: 0.5
-  emission: {x: 0, y: 0, z: 0}
+  emission: {r: 0, g: 0, b: 0, a: 0}
 --- !u!23 &1996768473
 MeshRenderer:
   m_ObjectHideFlags: 0
