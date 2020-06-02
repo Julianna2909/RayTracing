@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using Random = UnityEngine.Random;
 
 namespace RayTracing
@@ -18,7 +20,14 @@ namespace RayTracing
         private RenderTexture target;
         private uint currentSample;
         private Material addMaterial;
-        private bool isSceneGenerated;
+        private float lastFieldOfView;
+        private List<Transform> transformsToWatch = new List<Transform>();
+
+        private void Awake()
+        {
+            transformsToWatch.Add(transform);
+            transformsToWatch.Add(directionalLight.transform);
+        }
 
         private void OnEnable()
         {
@@ -28,15 +37,15 @@ namespace RayTracing
 
         private void InitSpheresBuffer()
         {
+            sphereBuffer?.Release();
             var spheresInfo = new List<SphereInfo>();
             spheres.ForEach(s =>
             {
                 spheresInfo.Add(s.GetSphereInfo());
-                s.gameObject.SetActive(false);
+//                s.gameObject.SetActive(false);
             });
             sphereBuffer = new ComputeBuffer(spheres.Count, 56);
             sphereBuffer.SetData(spheresInfo);
-            isSceneGenerated = true;
         }
 
         private void SetShaderParameters()
@@ -45,16 +54,16 @@ namespace RayTracing
             rayTracingShader.SetMatrix("CameraToWorld", renderCamera.cameraToWorldMatrix);
             rayTracingShader.SetMatrix("CameraInverseProjection", renderCamera.projectionMatrix.inverse);
             rayTracingShader.SetTexture(0, "SkyboxTexture", skyboxTexture);
+            rayTracingShader.SetFloat("Seed", Random.value);
             var lightForward = directionalLight.transform.forward;
             rayTracingShader.SetVector("DirectionalLight",
                 new Vector4(lightForward.x, lightForward.y, lightForward.z, directionalLight.intensity));
-            rayTracingShader.SetBuffer(0, "Spheres", sphereBuffer);
-            rayTracingShader.SetFloat("Seed", Random.value);
+            if (spheres != null)
+                rayTracingShader.SetBuffer(0, "Spheres", sphereBuffer);
         }
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
         {
-            if (!isSceneGenerated) return; 
             SetShaderParameters();
             Render(destination);
         }
@@ -69,7 +78,7 @@ namespace RayTracing
             
             if (addMaterial == null)
                 addMaterial = new Material(Shader.Find("Hidden/AddShader"));
-            addMaterial.SetFloat("Sample", currentSample);
+            addMaterial.SetFloat("_Sample", currentSample);
             Graphics.Blit(target, converged, addMaterial);
             Graphics.Blit(converged, destination);
             currentSample++;
@@ -93,20 +102,32 @@ namespace RayTracing
                 converged = new RenderTexture(Screen.width, Screen.height, 0,
                     RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear) {enableRandomWrite = true};
                 converged.Create();
+                currentSample = 0;
             }
         }
         
         private void OnDisable()
         {
-            isSceneGenerated = false;
             sphereBuffer?.Release();
         }
 
         private void Update()
         {
-            if (!transform.hasChanged) return;
-            currentSample = 0;
-            transform.hasChanged = false;
+            
+            if (Math.Abs(renderCamera.fieldOfView - lastFieldOfView) > 0.000001f)
+            {
+                currentSample = 0;
+                lastFieldOfView = renderCamera.fieldOfView;
+            }
+
+            foreach (Transform t in transformsToWatch)
+            {
+                if (t.hasChanged)
+                {
+                    currentSample = 0;
+                    t.hasChanged = false;
+                }
+            }
         }
     }
 
