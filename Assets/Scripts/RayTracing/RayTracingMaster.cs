@@ -14,6 +14,7 @@ namespace RayTracing
         [SerializeField] private Texture skyboxTexture;
         [SerializeField] private Light directionalLight;
         [SerializeField] private List<Sphere> spheres;
+        [SerializeField] private List<GameObject> objectsToTrace;
 
         private RenderTexture converged;
         private ComputeBuffer sphereBuffer;
@@ -22,6 +23,14 @@ namespace RayTracing
         private Material addMaterial;
         private float lastFieldOfView;
         private List<Transform> transformsToWatch = new List<Transform>();
+        
+        // objects buffer //
+        private List<MeshInfo> meshesInfo;
+        private List<Vector3> vertices;
+        private List<int> indices;
+        private ComputeBuffer meshObjectBuffer;
+        private ComputeBuffer vertexBuffer;
+        private ComputeBuffer indexBuffer;
 
         private void Awake()
         {
@@ -31,7 +40,11 @@ namespace RayTracing
 
         private void OnEnable()
         {
+            vertices = new List<Vector3>();
+            indices = new List<int>();
+            meshesInfo = new List<MeshInfo>();
             InitSpheresBuffer();
+            RebuildMeshObjectBuffers();
             currentSample = 0;
         }
 
@@ -47,6 +60,69 @@ namespace RayTracing
             sphereBuffer = new ComputeBuffer(spheres.Count, 56);
             sphereBuffer.SetData(spheresInfo);
         }
+        
+        private void RebuildMeshObjectBuffers()
+        {
+            if (objectsToTrace.Count == 0) return;
+            currentSample = 0;
+
+            // Clear all lists
+            vertices.Clear();
+            indices.Clear();
+
+            // Loop over all objects and gather their data
+            objectsToTrace.ForEach(o =>
+            {
+                var mesh = o.GetComponent<MeshFilter>().sharedMesh;
+                var firstVertex = vertices.Count;
+                vertices.AddRange(mesh.vertices);
+                
+                var firstIndex = indices.Count;
+                var objectIndices = mesh.GetIndices(0);
+                indices.AddRange(objectIndices.Select(index => index + firstVertex));
+                
+                meshesInfo.Add(new MeshInfo
+                {
+                    localToWorldMatrix = o.transform.localToWorldMatrix,
+                    indicesOffset = firstIndex,
+                    indicesCount = objectIndices.Length
+                });
+            });
+
+            CreateComputeBuffer(ref meshObjectBuffer, meshesInfo, 72);
+            CreateComputeBuffer(ref vertexBuffer, vertices, 12);
+            CreateComputeBuffer(ref indexBuffer, indices, 4);
+        }
+
+        private static void CreateComputeBuffer<T>(ref ComputeBuffer buffer, List<T> data, int stride)
+            where T : struct
+        {
+            if (buffer != null)
+            {
+                if (data.Count == 0 || buffer.count != data.Count || buffer.stride != stride)
+                {
+                    buffer.Release();
+                    buffer = null;
+                }
+            }
+
+            if (data.Count != 0)
+            {
+                if (buffer == null)
+                {
+                    buffer = new ComputeBuffer(data.Count, stride);
+                }
+                buffer.SetData(data);
+            }
+        }
+
+        private void SetComputeBuffer(string name, ComputeBuffer buffer)
+        {
+            if (buffer != null)
+            {
+                rayTracingShader.SetBuffer(0, name, buffer);
+            }
+        }
 
         private void SetShaderParameters()
         {
@@ -60,6 +136,10 @@ namespace RayTracing
                 new Vector4(lightForward.x, lightForward.y, lightForward.z, directionalLight.intensity));
             if (spheres != null)
                 rayTracingShader.SetBuffer(0, "Spheres", sphereBuffer);
+            if (meshObjectBuffer == null) return;
+            SetComputeBuffer("MeshObjects", meshObjectBuffer);
+            SetComputeBuffer("Vertices", vertexBuffer);
+            SetComputeBuffer("Indices", indexBuffer);
         }
 
         private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -105,11 +185,6 @@ namespace RayTracing
                 currentSample = 0;
             }
         }
-        
-        private void OnDisable()
-        {
-            sphereBuffer?.Release();
-        }
 
         private void Update()
         {
@@ -129,6 +204,10 @@ namespace RayTracing
                 }
             }
         }
+        private void OnDisable()
+        {
+            sphereBuffer?.Release();
+        }
     }
 
     public struct SphereInfo
@@ -139,5 +218,12 @@ namespace RayTracing
         public Vector3 specular;
         public float smoothness;
         public Vector3 emission;
+    }
+
+    public struct MeshInfo
+    {
+        public Matrix4x4 localToWorldMatrix;
+        public int indicesOffset;
+        public int indicesCount;
     }
 }
