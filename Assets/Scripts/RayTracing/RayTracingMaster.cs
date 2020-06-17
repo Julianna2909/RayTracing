@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using Random = UnityEngine.Random;
 
 namespace RayTracing
@@ -14,7 +13,7 @@ namespace RayTracing
         [SerializeField] private Texture skyboxTexture;
         [SerializeField] private Light directionalLight;
         [SerializeField] private List<Sphere> spheres;
-        [SerializeField] private List<GameObject> objectsToTrace;
+        [SerializeField] private List<MeshForTracing> objectsToTrace;
 
         private RenderTexture converged;
         private ComputeBuffer sphereBuffer;
@@ -22,7 +21,7 @@ namespace RayTracing
         private uint currentSample;
         private Material addMaterial;
         private float lastFieldOfView;
-        private List<Transform> transformsToWatch = new List<Transform>();
+        private readonly List<Transform> transformsToWatch = new List<Transform>();
         
         // objects buffer //
         private List<MeshInfo> meshesInfo;
@@ -65,15 +64,13 @@ namespace RayTracing
         {
             if (objectsToTrace.Count == 0) return;
             currentSample = 0;
-
-            // Clear all lists
+            
             vertices.Clear();
             indices.Clear();
-
-            // Loop over all objects and gather their data
+            
             objectsToTrace.ForEach(o =>
             {
-                var mesh = o.GetComponent<MeshFilter>().sharedMesh;
+                var mesh = o.MashFilter.sharedMesh;
                 var firstVertex = vertices.Count;
                 vertices.AddRange(mesh.vertices);
                 
@@ -81,15 +78,18 @@ namespace RayTracing
                 var objectIndices = mesh.GetIndices(0);
                 indices.AddRange(objectIndices.Select(index => index + firstVertex));
                 
+                o.GetMaterialParameters(out var albedo, out var specular, out var smoothness, out var emission);
+
                 meshesInfo.Add(new MeshInfo
                 {
-                    localToWorldMatrix = o.transform.localToWorldMatrix,
-                    indicesOffset = firstIndex,
-                    indicesCount = objectIndices.Length
+                    LocalToWorldMatrix = o.transform.localToWorldMatrix,
+                    IndicesOffset = firstIndex,
+                    IndicesCount = objectIndices.Length,
+                    Albedo = albedo, Specular = specular, Smoothness = smoothness, Emission = emission
                 });
             });
 
-            CreateComputeBuffer(ref meshObjectBuffer, meshesInfo, 72);
+            CreateComputeBuffer(ref meshObjectBuffer, meshesInfo, 112);
             CreateComputeBuffer(ref vertexBuffer, vertices, 12);
             CreateComputeBuffer(ref indexBuffer, indices, 4);
         }
@@ -159,8 +159,8 @@ namespace RayTracing
             if (addMaterial == null)
                 addMaterial = new Material(Shader.Find("Hidden/AddShader"));
             addMaterial.SetFloat("_Sample", currentSample);
-            Graphics.Blit(target, converged, addMaterial);
-            Graphics.Blit(converged, destination);
+            Graphics.Blit(target, converged);
+            Graphics.Blit(converged, destination, addMaterial);
             currentSample++;
         }
 
@@ -212,18 +212,22 @@ namespace RayTracing
 
     public struct SphereInfo
     {
-        public Vector3 position;
-        public float radius;
-        public Vector3 albedo;
-        public Vector3 specular;
-        public float smoothness;
-        public Vector3 emission;
+        public Vector3 Position;
+        public float Radius;
+        public Vector3 Albedo;
+        public Vector3 Specular;
+        public float Smoothness;
+        public Vector3 Emission;
     }
 
     public struct MeshInfo
     {
-        public Matrix4x4 localToWorldMatrix;
-        public int indicesOffset;
-        public int indicesCount;
+        public Matrix4x4 LocalToWorldMatrix;
+        public int IndicesOffset;
+        public int IndicesCount;
+        public Vector3 Albedo;
+        public Vector3 Specular;
+        public float Smoothness;
+        public Vector3 Emission;
     }
 }

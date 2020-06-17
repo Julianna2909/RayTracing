@@ -19,6 +19,10 @@ struct MeshObject
     float4x4 localToWorldMatrix;
     int indicesOffset;
     int indicesCount;
+    float3 albedo;
+    float3 specular;
+    float smoothness;
+    float3 emission;
 };
 
 StructuredBuffer<MeshObject> MeshObjects;
@@ -192,10 +196,10 @@ void IntersectMeshObject(Ray ray, inout RayHit bestHit, MeshObject meshObject)
                 bestHit.distance = t;
                 bestHit.position = ray.origin + t * ray.direction;
                 bestHit.normal = normalize(cross(v1 - v0, v2 - v0));
-                bestHit.albedo = 0.0f;
-                bestHit.specular = 0.9f;
-                bestHit.smoothness = 0.9f;
-                bestHit.emission = 0.0f;
+                bestHit.albedo = meshObject.albedo;
+                bestHit.specular = meshObject.specular;
+                bestHit.smoothness = meshObject.smoothness;
+                bestHit.emission = meshObject.emission;
             }
         }
     }
@@ -212,14 +216,13 @@ void IntersectGroundPlane(Ray ray, inout RayHit bestHit)
         bestHit.normal = float3(0.0f, 1.0f, 0.0f);
         bestHit.albedo = 1.0f;
         bestHit.specular = 0.85f;
-        bestHit.smoothness = 0.2f;
+        bestHit.smoothness = 0.62f;
         bestHit.emission = float3(0.0f, 0.0f, 0.0f);
     }
 }
 
 void IntersectSphere(Ray ray, inout RayHit bestHit, Sphere sphere)
 {
-    // Calculate distance along the ray where the sphere is intersected
     float3 d = ray.origin - sphere.position;
     float p1 = -dot(ray.direction, d);
     float p2sqr = p1 * p1 - dot(d, d) + sphere.radius * sphere.radius;
@@ -242,8 +245,6 @@ void IntersectSphere(Ray ray, inout RayHit bestHit, Sphere sphere)
 RayHit Trace(Ray ray)
 {
     RayHit bestHit = CreateRayHit();
-
-    // Trace single triangle
     IntersectGroundPlane(ray, bestHit);
 
     uint count, stride;
@@ -251,8 +252,9 @@ RayHit Trace(Ray ray)
     for (uint i = 0; i < count; i++)
         IntersectSphere(ray, bestHit, Spheres[i]);
     MeshObjects.GetDimensions(count, stride);
-    for (uint i = 0; i < count; i++)
-    	IntersectMeshObject(ray, bestHit, MeshObjects[i]);
+    for (uint j = 0; j < count; j++)
+    	IntersectMeshObject(ray, bestHit, MeshObjects[j]);
+    	
     return bestHit;
 }
 
@@ -265,6 +267,7 @@ float3 Shade(inout Ray ray, RayHit hit)
         float specChance = energy(hit.specular);
         float diffChance = energy(hit.albedo);
 
+        // specChance /= specChance + diffChance;
         // Roulette-select the ray's path
         float roulette = Random();
         if (roulette < specChance)

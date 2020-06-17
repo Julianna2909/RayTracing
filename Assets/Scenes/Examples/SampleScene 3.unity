@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 259759747}
   - component: {fileID: 259759749}
   - component: {fileID: 259759748}
+  - component: {fileID: 259759750}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -280,6 +281,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 259759746}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &259759750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259759746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9e4530694d4be992babb40990f1a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0.6981132, b: 0.13453051, a: 0}
+  specular: {r: 0.3159342, g: 0.8679245, b: 0.028657902, a: 0}
+  smoothness: 0.908
+  emission: {r: 0, g: 0, b: 0, a: 0}
+  mashFilter: {fileID: 259759749}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,9 +434,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1852e0c4b9ee4bef9adafc68dc96c390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 0}
-  specular: {r: 1, g: 1, b: 1, a: 0}
-  smoothness: 1
+  color: {r: 1, g: 0, b: 0, a: 0}
+  specular: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+  smoothness: 0.702
   emission: {r: 0, g: 0, b: 0, a: 0}
 --- !u!23 &733527607
 MeshRenderer:
@@ -544,7 +562,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.001741754, y: 0.98069274, z: -0.008743845, w: -0.19535178}
-  m_LocalPosition: {x: 6.23, y: 3.62, z: 14.59}
+  m_LocalPosition: {x: 6.87, y: 1, z: 16.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -569,7 +587,7 @@ MonoBehaviour:
   spheres:
   - {fileID: 733527606}
   objectsToTrace:
-  - {fileID: 259759746}
+  - {fileID: 259759750}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -614,7 +632,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2107077364}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.42, z: 0}
+  m_LocalPosition: {x: 0, y: -4.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 733527605}

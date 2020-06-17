@@ -567,7 +567,7 @@ MonoBehaviour:
   spheres:
   - {fileID: 733527606}
   objectsToTrace:
-  - {fileID: 1431861183}
+  - {fileID: 1431861184}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,6 +591,29 @@ MonoBehaviour:
 --- !u!1 &1431861183 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2534866581884222612, guid: c6fc1479889b7394e9aa1d240ea4870d,
+    type: 3}
+  m_PrefabInstance: {fileID: 821916324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1431861184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431861183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9e4530694d4be992babb40990f1a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  specular: {r: 0.8018868, g: 0.71240944, b: 0.18534178, a: 0}
+  smoothness: 1
+  emission: {r: 0, g: 0, b: 0, a: 0}
+  mashFilter: {fileID: 1431861186}
+--- !u!33 &1431861186 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 2834078683115760881, guid: c6fc1479889b7394e9aa1d240ea4870d,
     type: 3}
   m_PrefabInstance: {fileID: 821916324}
   m_PrefabAsset: {fileID: 0}

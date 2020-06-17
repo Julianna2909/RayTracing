@@ -198,66 +198,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16619527}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!108 &16619531
-Light:
+--- !u!114 &16619531
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16619527}
   m_Enabled: 1
-  serializedVersion: 9
-  m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9e4530694d4be992babb40990f1a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0, g: 0, b: 0, a: 0}
+  specular: {r: 1, g: 1, b: 1, a: 0}
+  smoothness: 0.802
+  emission: {r: 0, g: 0, b: 0, a: 0}
+  mashFilter: {fileID: 16619530}
 --- !u!1 &359947805
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,66 +478,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 751197242}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!108 &751197246
-Light:
+--- !u!114 &751197246
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 751197242}
   m_Enabled: 1
-  serializedVersion: 9
-  m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 10
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9e4530694d4be992babb40990f1a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 1, g: 1, b: 1, a: 0}
+  specular: {r: 0.7406784, g: 0.764151, b: 0.2270826, a: 0}
+  smoothness: 1
+  emission: {r: 0, g: 0, b: 0, a: 0}
+  mashFilter: {fileID: 751197245}
 --- !u!1 &762553201
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,9 +792,9 @@ MonoBehaviour:
   - {fileID: 767220029}
   - {fileID: 1795708083}
   objectsToTrace:
-  - {fileID: 751197242}
-  - {fileID: 16619527}
-  - {fileID: 1405071315}
+  - {fileID: 751197246}
+  - {fileID: 16619531}
+  - {fileID: 1405071316}
 --- !u!1001 &1405071313
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -959,6 +873,29 @@ Transform:
 --- !u!1 &1405071315 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2534866581884222612, guid: 45084c15aba82a245aee02a1fe2d7ba9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1405071313}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1405071316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405071315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce9e4530694d4be992babb40990f1a9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.33490568, g: 1, b: 0.87776536, a: 0}
+  specular: {r: 0.38470095, g: 0.8584906, b: 0.8131922, a: 0}
+  smoothness: 0.74
+  emission: {r: 0, g: 0, b: 0, a: 0}
+  mashFilter: {fileID: 1405071319}
+--- !u!33 &1405071319 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 2834078683115760881, guid: 45084c15aba82a245aee02a1fe2d7ba9,
     type: 3}
   m_PrefabInstance: {fileID: 1405071313}
   m_PrefabAsset: {fileID: 0}
