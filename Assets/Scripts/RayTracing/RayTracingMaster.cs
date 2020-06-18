@@ -159,8 +159,8 @@ namespace RayTracing
             if (addMaterial == null)
                 addMaterial = new Material(Shader.Find("Hidden/AddShader"));
             addMaterial.SetFloat("_Sample", currentSample);
-            Graphics.Blit(target, converged);
-            Graphics.Blit(converged, destination, addMaterial);
+            Graphics.Blit(target, converged, addMaterial);
+            Graphics.Blit(converged, destination);
             currentSample++;
         }
 
