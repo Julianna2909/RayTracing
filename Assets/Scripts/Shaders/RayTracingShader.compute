@@ -249,11 +249,16 @@ RayHit Trace(Ray ray)
 
     uint count, stride;
     Spheres.GetDimensions(count, stride);
-    for (uint i = 0; i < count; i++)
-        IntersectSphere(ray, bestHit, Spheres[i]);
+    if (count > 0){
+        for (uint i = 0; i < count; i++)
+            IntersectSphere(ray, bestHit, Spheres[i]);
+    }
+    
     MeshObjects.GetDimensions(count, stride);
-    for (uint j = 0; j < count; j++)
-    	IntersectMeshObject(ray, bestHit, MeshObjects[j]);
+    if (count > 0){
+        for (uint j = 0; j < count; j++)
+        	IntersectMeshObject(ray, bestHit, MeshObjects[j]);
+    }
     	
     return bestHit;
 }
